@@ -26,6 +26,9 @@ void setup() {
   }
   //leds
   for(int i=0;i<9;i++
+      
+        //************ setup additions can go here*******************
+
   
 }
 
@@ -67,6 +70,8 @@ void loop() {
     }
    }
 
+  //************ loop additions can go here*******************
+  
 }
 
 void setLED(int col, int row, int color){
