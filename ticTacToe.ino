@@ -25,9 +25,14 @@ void setup() {
     pinMode(i+2, INPUT);
   }
   //leds
-  for(int i=0;i<9;i++
+  for(int i=0;i<9;i++){
+    pinMode(i+SEPERATER_CONSTANT+pinCounter, INPUT);
+    digitalWrite(i+SEPERATER_CONSTANT+pinCounter, LOW);
+    pinMode(i+pinCounter, INPUT);
+    digitalWrite(i+pinCounter, LOW);
+  }
       
-        //************ setup additions can go here*******************
+  //************ setup additions can go here*******************
 
   
 }
@@ -82,19 +87,20 @@ void setLED(int col, int row, int color){
 void updateLED(){
   for (int i = 0; i < 3; i++){
     for (int j= 0; j< 3; j++){
-      pinCounter++;
+      
       if (board[i][j] == 0){
         digitalWrite(pinCounter, LOW);
         digitalWrite(pinCounter + SEPERATER_CONSTANT, LOW);
       }
-      if (board[i][j] == 1){
+      else if (board[i][j] == 1){
         digitalWrite(pinCounter, HIGH);
         digitalWrite(pinCounter + SEPERATER_CONSTANT, LOW);
       }
-      if (board[i][j] == 2){
+      else if (board[i][j] == 2){
         digitalWrite(pinCounter, LOW);
         digitalWrite(pinCounter + SEPERATER_CONSTANT, HIGH);
       }
+      pinCounter++;
     }
   }
 }
