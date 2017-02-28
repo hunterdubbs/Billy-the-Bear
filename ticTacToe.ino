@@ -107,7 +107,7 @@ void updateLED(){
 
 void checkForWin(){
   //see if it is yet possible to win
-  if(turns >= 5){
+  if(turn >= 5){
   //player wins **********
   //up - down
     if(board[0][0] == 1 && board[0][1] == 1 && board[0][2] == 1) {playerWin("c", 0);}
@@ -143,14 +143,14 @@ void playerWin(char type, int loc){
   //stop game
   turnIdentifier = 0;
   //turn off all lights
-  for(var i=0;i<3;i++){
-    for(var j=0;j<3;j++){
+  for(int i=0;i<3;i++){
+    for(int j=0;j<3;j++){
       board[i][j] = 0;
     }
   }
   updateLED();
   //begin blink sequence - 3 iterations
-  for(var i=0;i<3;i++){
+  for(int i=0;i<3;i++){
     delay(250);
     if(type == "c"){
       board[loc][0] = 1;
@@ -205,14 +205,14 @@ void computerWin(char type, int loc){
   //stop game
   turnIdentifier = 0;
   //turn off all lights
-  for(var i=0;i<3;i++){
-    for(var j=0;j<3;j++){
+  for(int i=0;i<3;i++){
+    for(int j=0;j<3;j++){
       board[i][j] = 0;
     }
   }
   updateLED();
   //begin blink sequence - 3 iterations
-  for(var i=0;i<3;i++){
+  for(int i=0;i<3;i++){
     delay(250);
     if(type == "c"){
       board[loc][0] = 2;
