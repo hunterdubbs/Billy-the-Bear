@@ -28,9 +28,9 @@ void setup() {
   }
   //leds
   for(int i=0;i<9;i++){
-    pinMode(i+SEPERATER_CONSTANT+pinCounter, INPUT);
+    pinMode(i+SEPERATER_CONSTANT+pinCounter, OUTPUT);
     digitalWrite(i+SEPERATER_CONSTANT+pinCounter, LOW);
-    pinMode(i+pinCounter, INPUT);
+    pinMode(i+pinCounter, OUTPUT);
     digitalWrite(i+pinCounter, LOW);
   }
       
@@ -47,8 +47,8 @@ void loop() {
       Serial.println(i);
     }
   }*/
-
-  /*board[0][0] = 1;
+/*
+  board[0][0] = 1;
   board[0][1] = 1;
   board[0][2] = 1;
   board[1][0] = 1;
@@ -86,9 +86,10 @@ void loop() {
   board[2][2] = 2;
   updateLED();
 
-  delay(3000);*/
+  delay(3000);
 
   //end debugging
+  */
   
   if (turnIdentifier == 1){
     //check button states
@@ -140,6 +141,7 @@ void loop() {
      if(board[col][row] == 0){
       board[col][row] = 2;
       Serial.println("AI turn accepted");
+      delay(500);
       updateLED();
       turnIdentifier = 1;
       if(checkForWin() == false){
@@ -242,6 +244,7 @@ void playerWin(String type, int loc){
   Serial.print(loc);
   //stop game
   turnIdentifier = 0;
+  turn = 0;
   //turn off all lights
   for(int i=0;i<3;i++){
     for(int j=0;j<3;j++){
@@ -306,6 +309,7 @@ void computerWin(String type, int loc){
   Serial.println("AI win");
   //stop game
   turnIdentifier = 0;
+  turn = 0;
   //turn off all lights
   for(int i=0;i<3;i++){
     for(int j=0;j<3;j++){
@@ -365,3 +369,4 @@ void computerWin(String type, int loc){
   }
   turnIdentifier = 1;
 }
+
