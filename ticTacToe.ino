@@ -3,15 +3,18 @@
 //1 = blue
 //2 = red
 int board[][3] = {{0, 0, 0},{0, 0, 0},{0, 0, 0}};
+int soundLength[8] = {33000, 11500, 11500, 6500, 7500, 10000, 13000, 10000};
 
 //whose turn it is
 //0 = game not running
 //1 = player
 //2 = computer
 int turnIdentifier = 0;
+bool dispRunning = false;
 
 //which pin the leds start at; should be all blue then all red
 int pinCounter = 22;
+int soundPinStart = 40;
 
 //turn number; used for optimization
 int turn = 0;
@@ -33,64 +36,28 @@ void setup() {
     pinMode(i+pinCounter, OUTPUT);
     digitalWrite(i+pinCounter, LOW);
   }
+
+  //sound pins
+  for(int i=0;i<8;i++){
+    pinMode(i+soundPinStart, OUTPUT);
+    digitalWrite(i+soundPinStart, HIGH);
+  }
+
+  //start button
+  pinMode(12, INPUT_PULLUP);
       
-  //************ setup additions can go here*******************
-  turnIdentifier = 1;
-  
+  //************ setup additions can go here******************/
+ 
 }
 
 void loop() {
-  //debugging
-  /*
-  for(int i=2;i<11;i++){
-    if(digitalRead(i) == HIGH){
-      Serial.println(i);
-    }
-  }*/
-/*
-  board[0][0] = 1;
-  board[0][1] = 1;
-  board[0][2] = 1;
-  board[1][0] = 1;
-  board[1][1] = 1;
-  board[1][2] = 1;
-  board[2][0] = 1;
-  board[2][1] = 1;
-  board[2][2] = 1;
-  updateLED();
 
+  if(digitalRead(12) == LOW){
+    dispRunning = true;
+    startGame();
+  }
 
-  delay(3000);
-
-  board[0][0] = 0;
-  board[0][1] = 0;
-  board[0][2] = 0;
-  board[1][0] = 0;
-  board[1][1] = 0;
-  board[1][2] = 0;
-  board[2][0] = 0;
-  board[2][1] = 0;
-  board[2][2] = 0;
-  updateLED();
-
-  delay(3000);
-
-  board[0][0] = 2;
-  board[0][1] = 2;
-  board[0][2] = 2;
-  board[1][0] = 2;
-  board[1][1] = 2;
-  board[1][2] = 2;
-  board[2][0] = 2;
-  board[2][1] = 2;
-  board[2][2] = 2;
-  updateLED();
-
-  delay(3000);
-
-  //end debugging
-  */
-  
+  while(dispRunning){
   if (turnIdentifier == 1){
     //check button states
     int pinCounter = 2;
@@ -105,7 +72,7 @@ void loop() {
           }else{
             turnIdentifier = 1;
           }
-          Serial.println("player turn accepted");
+          //Serial.println("player turn accepted");
           updateLED();
           if(checkForWin() == false){
             if(turn >= 9){
@@ -123,6 +90,8 @@ void loop() {
               updateLED();
               turn = 0;
               turnIdentifier = 1;
+              playSound(7);
+              Serial.print("S");
               delay(3000);
             }
           }
@@ -135,18 +104,26 @@ void loop() {
    //computer's turn
    if (turnIdentifier == 2){
     bool turnComplete = false;
+    playSound(floor(turn/2)+1);
+    Serial.print("S");
+    delay(soundLength[int(floor(turn/2)+1)]);
+    Serial.print("D");
+    delay(5000);
     while (turnComplete == false){
      int col = floor(random(0, 3.999));
      int row = floor(random(0, 3.999));
      if(board[col][row] == 0){
       board[col][row] = 2;
-      Serial.println("AI turn accepted");
+      //Serial.println("AI turn accepted");
       delay(500);
       updateLED();
       turnIdentifier = 1;
       if(checkForWin() == false){
             if(turn >= 9){
               //was a draw
+              playSound(7);
+              Serial.print("S");
+              delay(10000);
               //reset
               board[0][0] = 0;
               board[0][1] = 0;
@@ -170,7 +147,7 @@ void loop() {
    }
 
   //************ loop additions can go here*******************
-  
+  }
 }
 
 void setLED(int col, int row, int color){
@@ -237,11 +214,11 @@ bool checkForWin(){
 //r = row
 //d = diagonal
 void playerWin(String type, int loc){
-  Serial.println("player win");
+  /*Serial.println("player win");
   Serial.print("type = ");
   Serial.println(type);
   Serial.print("loc = ");
-  Serial.print(loc);
+  Serial.print(loc);*/
   //stop game
   turnIdentifier = 0;
   turn = 0;
@@ -302,11 +279,16 @@ void playerWin(String type, int loc){
       }
     }
   }
+  playSound(5);
+  Serial.print("S");
+  delay(10000);
+  Serial.print("E");
   turnIdentifier = 1;
+  dispRunning = false;
 }
 
 void computerWin(String type, int loc){
-  Serial.println("AI win");
+  //Serial.println("AI win");
   //stop game
   turnIdentifier = 0;
   turn = 0;
@@ -367,6 +349,26 @@ void computerWin(String type, int loc){
       }
     }
   }
+  playSound(6);
+  Serial.print("S");
+  delay(13000);
   turnIdentifier = 1;
+  dispRunning = false;
+}
+
+void startGame(){
+  
+  playSound(0); //do intro
+  Serial.print("C");
+  delay(5000);
+  Serial.print("S");
+  delay(29000);
+  turnIdentifier = 1;
+}
+
+void playSound(int index){
+  digitalWrite(index + soundPinStart, LOW);
+  delay(100);
+  digitalWrite(index + soundPinStart, HIGH);
 }
 
