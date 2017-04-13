@@ -3,7 +3,7 @@
 //1 = blue
 //2 = red
 int board[][3] = {{0, 0, 0},{0, 0, 0},{0, 0, 0}};
-int soundLength[8] = {33000, 11500, 11500, 6500, 7500, 10000, 13000, 10000};
+int soundLength[8] = {33000, 7500, 7500, 2500, 3500, 10000, 13000, 10000};
 
 //whose turn it is
 //0 = game not running
@@ -137,7 +137,7 @@ void loop() {
               updateLED();
               turn = 0;
               turnIdentifier = 1;
-              delay(3000);
+              delay(5000);
             }
         }
       turn++;

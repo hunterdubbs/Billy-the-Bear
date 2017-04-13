@@ -143,7 +143,7 @@ void loop() {
       moveMotor(mouthMotor, closePos, 0.5, 3);
     }else{
       if(turn < 5){
-        soundLength = soundLengths[turn]/1000;
+        soundLength = soundLengths[turn]/1000-4000;
       }else{
         soundLength = 10;
       }
