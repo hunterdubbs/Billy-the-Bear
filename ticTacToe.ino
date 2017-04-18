@@ -294,6 +294,7 @@ void playerWin(String type, int loc){
 void computerWin(String type, int loc){
   //Serial.println("AI win");
   //stop game
+  delay(2000);
   turnIdentifier = 0;
   turn = 0;
   //turn off all lights
