@@ -186,6 +186,10 @@ void loop() {
       delay(750);
       input = 'Z';
     }
+  } else if(input == 'R'){
+    //reset
+    firstTime = true;
+    turn = 1;
   }
   //input = 'Z';
 }

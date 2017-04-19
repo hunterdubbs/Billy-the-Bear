@@ -138,6 +138,9 @@ void loop() {
               turn = 0;
               turnIdentifier = 1;
               delay(5000);
+              dispRunning = false;
+              Serial.print("R");
+              break;
             }
         }
       turn++;
@@ -285,11 +288,13 @@ void playerWin(String type, int loc){
   Serial.print("E");
   turnIdentifier = 1;
   dispRunning = false;
+  Serial.print("R");
 }
 
 void computerWin(String type, int loc){
   //Serial.println("AI win");
   //stop game
+  delay(2000);
   turnIdentifier = 0;
   turn = 0;
   //turn off all lights
@@ -354,6 +359,7 @@ void computerWin(String type, int loc){
   delay(13000);
   turnIdentifier = 1;
   dispRunning = false;
+  Serial.print("R");
 }
 
 void startGame(){
@@ -364,6 +370,7 @@ void startGame(){
   Serial.print("S");
   delay(29000);
   turnIdentifier = 1;
+  turn = 0;
 }
 
 void playSound(int index){
