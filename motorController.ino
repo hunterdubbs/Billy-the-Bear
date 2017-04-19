@@ -145,7 +145,7 @@ void loop() {
       if(turn < 5){
         soundLength = soundLengths[turn]/1000-4000;
       }else{
-        soundLength = 10;
+        soundLength = 9;
       }
     }
     int mouthMotor[1] = {14};
@@ -190,6 +190,8 @@ void loop() {
     //reset
     firstTime = true;
     turn = 1;
+  } else if(input == 'Q'){
+    turn++;
   }
   //input = 'Z';
 }

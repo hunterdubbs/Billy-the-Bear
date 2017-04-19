@@ -283,6 +283,7 @@ void playerWin(String type, int loc){
     }
   }
   playSound(5);
+  Serial.print("Q");
   Serial.print("S");
   delay(10000);
   Serial.print("E");
