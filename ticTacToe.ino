@@ -110,11 +110,7 @@ void loop() {
     Serial.print("D");
     delay(5000);
     while (turnComplete == false){
-     int col = floor(random(0, 3.999));
-     int row = floor(random(0, 3.999));
-     if(board[col][row] == 0){
-      board[col][row] = 2;
-      //Serial.println("AI turn accepted");
+      getNextMove(false);
       delay(500);
       updateLED();
       turnIdentifier = 1;
@@ -147,7 +143,6 @@ void loop() {
       turnComplete = true;
      }
     }
-   }
 
   //************ loop additions can go here*******************
   }
@@ -378,5 +373,134 @@ void playSound(int index){
   digitalWrite(index + soundPinStart, LOW);
   delay(100);
   digitalWrite(index + soundPinStart, HIGH);
+}
+
+void getNextMove(bool flag){
+  if (turn == 1 || flag){
+    getRandMove();
+  }else{
+    //************check for possible win*******//
+    //horizontal and vertical
+    for(int i=0;i<3;i++){
+      if (board[i][0] == 2 && board[i][1] == 2){ 
+        if(board[i][2] == 0){
+          board[i][2] = 2;
+          goto algorEnd;
+        }
+      }
+      if (board[i][1] == 2 && board[i][2] == 2){ 
+        if(board[i][0] == 0){
+          board[i][0] = 2;
+          goto algorEnd;
+        }
+      }
+      if (board[0][i] == 2 && board[1][i] == 2){ 
+        if(board[2][i] == 0){
+          board[2][i] = 2;
+          goto algorEnd;
+        }
+      }
+      if (board[1][i] == 2 && board[2][i] == 2){ 
+        if(board[0][i] == 0){
+          board[0][i] = 2;
+          goto algorEnd;
+        }
+      }
+    }
+    //diagonals
+    if (board[0][0] == 2 && board[1][1] == 2){
+      if(board[2][2] == 0){
+        board[2][2] = 2;
+        goto algorEnd;
+      }
+    }
+    if (board[1][1] == 2 && board[2][2] == 2){
+      if(board[0][0] == 0){
+        board[0][0] = 2;
+        goto algorEnd;
+      }
+    }
+    if (board[0][2] == 2 && board[1][1] == 2){
+      if(board[2][0] == 0){
+        board[2][0] == 2;
+        goto algorEnd;
+      }
+    }
+    if (board[2][0] == 2 && board[1][1] == 2){
+      if(board[0][2] == 0){
+        board[0][2] == 2;
+        goto algorEnd;
+      }
+    }
+    //************check for possible loss*******//
+    //horizontal and vertical
+    for(int i=0;i<3;i++){
+      if (board[i][0] == 1 && board[i][1] == 1){ 
+        if(board[i][2] == 0){
+          board[i][2] = 2;
+          goto algorEnd;
+        }
+      }
+      if (board[i][1] == 1 && board[i][2] == 1){ 
+        if(board[i][0] == 0){
+          board[i][0] = 2;
+          goto algorEnd;
+        }
+      }
+      if (board[0][i] == 1 && board[1][i] == 1){ 
+        if(board[2][i] == 0){
+          board[2][i] = 2;
+          goto algorEnd;
+        }
+      }
+      if (board[1][i] == 1 && board[2][i] == 1){ 
+        if(board[0][i] == 0){
+          board[0][i] = 2;
+          goto algorEnd;
+        }
+      }
+    }
+    //diagonals
+    if (board[0][0] == 1 && board[1][1] == 1){
+      if(board[2][2] == 0){
+        board[2][2] = 2;
+        goto algorEnd;
+      }
+    }
+    if (board[1][1] == 1 && board[2][2] == 1){
+      if(board[0][0] == 0){
+        board[0][0] = 2;
+        goto algorEnd;
+      }
+    }
+    if (board[0][2] == 1 && board[1][1] == 1){
+      if(board[2][0] == 0){
+        board[2][0] == 2;
+        goto algorEnd;
+      }
+    }
+    if (board[2][0] == 1 && board[1][1] == 1){
+      if(board[0][2] == 0){
+        board[0][2] == 2;
+        goto algorEnd;
+      }
+    }
+    else {
+      getRandMove();
+    }
+    algorEnd:
+    delay(1);
+  }
+}
+void getRandMove(){
+  bool done = false;
+  while (!done){
+    int col = floor(random(0, 3.999));
+    int row = floor(random(0, 3.999));
+    if(board[col][row] == 0){
+      board[col][row] = 2;
+      done;
+    }
+  }
 }
 
