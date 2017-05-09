@@ -1,5 +1,5 @@
-#include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
+#include <Wire.h>
 
 
 //this is how many times a second the motors update
@@ -13,6 +13,7 @@ bool firstTime = true;
 
 int soundLengths[8] = {33000, 13000, 13000, 8000, 9000, 10000, 13000, 10000};
 int turn = 1;
+int targetButton;
 const int signalPin = A0;
 
 int lastPos[16];
@@ -31,7 +32,7 @@ void setup() {
   servoControl.setPWMFreq(60);
 
   //put all servos in start pos
-  
+
   //waist
   servoControl.setPWM(0, 0, 320);
   lastPos[0] = 320;
@@ -66,13 +67,13 @@ void setup() {
 
 void loop() {
 
-  if(input != 'Z'){
+  if (input != 'Z') {
     Serial.println(input);
   }
-  
 
-  if(input == 'B'){
-  //turn waist
+
+  if (input == 'B') {
+    //turn waist
     int waistSideMotors[2] = {0, 1};
     int pos1[2] = {400, 600};
     int pos2[2] = {200, 350};
@@ -81,7 +82,7 @@ void loop() {
     moveMotor(waistSideMotors, pos2, 1, 2);
     delay(2000);
     input = 'Z';
-  } else if(input == 'C'){
+  } else if (input == 'C') {
     //wave
     turn = 1;
     int mouthMotor[1] = {14};
@@ -94,7 +95,7 @@ void loop() {
     moveMotor(armMotors, RApos2, 1, 3);
     moveMotor(mouthMotor, openPos, 0.25, 1);
     moveMotor(mouthMotor, closePos, 0.25, 1);
-    for(int i=0;i<3;i++){
+    for (int i = 0; i < 3; i++) {
       moveMotor(armMotors, RApos3, 0.1, 3);
       moveMotor(mouthMotor, openPos, 0.25, 1);
       moveMotor(armMotors, RApos2, 0.1, 3);
@@ -104,14 +105,57 @@ void loop() {
     moveMotor(armMotors, RApos1, 1, 3);
     moveMotor(mouthMotor, closePos, 0.25, 1);
     input = 'Z';
-  } else if(input == 'D'){
+  } else if (input == 'D') {
     //do tic tac toe turn
     turn++;
     int armMotors[3] = {8, 9, 10};
     int armWaistMotors[5] = {8, 9, 10, 0, 1};
     //int pos1[3] = {200, 300, 600}; //paw to chin
     int pos2[5] = {120, 400, 400, 320, 550}; // side of honey pot
-    int pos3[5] = {50, 600, 400, 410, 500}; //push button
+    int pos3[5];
+    //this pos changes depending upon the targetButton var
+    switch(targetButton){
+      
+      case 1:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 2:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 3:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 4:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 5:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 6:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 7:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 8:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+
+      case 9:
+        pos3[5] = {50, 600, 400, 410, 500};
+        break;
+       
+    }
+
+    //returns to generic code
+    
     int pos4[3] = {350, 600, 400}; //home pos
     //moveMotor(armMotors, pos1, 1, 3);
     //should say line here
@@ -130,9 +174,9 @@ void loop() {
     moveMotor(armMotors, pos4, 0.5, 3);
     moveMotor(mouthMotor, closePos, 0.25, 1);
     input = 'Z';
-  } else if(input == 'S'){
+  } else if (input == 'S') {
     //moves the mouth
-    if(firstTime){
+    if (firstTime) {
       soundLength = 25;
       firstTime = false;
       int mouthMotor[3] = {14, 13, 12};
@@ -141,10 +185,10 @@ void loop() {
       int closePos[3] = {290, 600, 280};
       moveMotor(mouthMotor, openPos, 0.5, 3);
       moveMotor(mouthMotor, closePos, 0.5, 3);
-    }else{
-      if(turn < 5){
-        soundLength = soundLengths[turn]/1000-4000;
-      }else{
+    } else {
+      if (turn < 5) {
+        soundLength = soundLengths[turn] / 1000 - 4000;
+      } else {
         soundLength = 9;
       }
     }
@@ -152,7 +196,7 @@ void loop() {
     int openPos[1] = {200};
     int closePos[1] = {290};
     int speakTime = 0;
-    while(speakTime < soundLength*1000){
+    while (speakTime < soundLength * 1000) {
       int pause = floor(random(0, 300));
       int pause2 = floor(random(0, 300));
       moveMotor(mouthMotor, openPos, 0.25, 1);
@@ -162,7 +206,7 @@ void loop() {
       speakTime += (500 + pause + pause2);
     }
     input = 'Z';
-  } else if(input == 'E'){
+  } else if (input == 'E') {
     //high-five
     int armMotors[4] = {4, 5, 6, 0};
     int pos1[4] = {550, 450, 400, 320};
@@ -174,50 +218,56 @@ void loop() {
     moveMotor(armMotors, pos1, 0.25, 4);
     moveMotor(armMotors, pos3, 0.5, 4);
     input = 'Z';
-  } else if(input == 'F'){
+  } else if (input == 'F') {
     //nods head
     int head[1] = {13};
     int hpos1[1] = {600};
     int hpos2[1] = {200};
-    for(int i=0;i<nodReps;i++){
+    for (int i = 0; i < nodReps; i++) {
       moveMotor(head, hpos2, 0.5, 1);
       delay(750);
       moveMotor(head, hpos1, 0.5, 1);
       delay(750);
       input = 'Z';
     }
-  } else if(input == 'R'){
+  } else if (input == 'R') {
     //reset
     firstTime = true;
     turn = 1;
-  } else if(input == 'Q'){
+  } else if (input == 'Q') {
     turn++;
+  } else {
+    for (int i = 1; i < 10; i++) {
+      if (input == char(i)) {
+        targetButton = i;
+      }
+    }
   }
   //input = 'Z';
 }
 
 //this function will move all given motors to their given positions in such a way that they arrive at the same time.
 //accepts an array of servos id's, an array of the desired end positions, the time in seconds that it should take to get there, and the number of motors it will move
-void moveMotor(int servos[], int pos[], float dur, int numMotors){
+void moveMotor(int servos[], int pos[], float dur, int numMotors) {
   int num = numMotors;
   int moveRange[num];
   int movePerUpdate[num];
   int reps = dur * updateRate;
 
-  for(int i=0;i<num;i++){
+  for (int i = 0; i < num; i++) {
     //startPos[i] = servos[i].read();  //defunct with special servo library
-    moveRange[i] = pos[i]-lastPos[servos[i]];
+    moveRange[i] = pos[i] - lastPos[servos[i]];
     movePerUpdate[i] = moveRange[i] / reps;
   }
 
 
   //move motors with computed values
-  for(int i=0;i<reps;i++){
-    for(int j=0;j<num;j++){
-       servoControl.setPWM(servos[j], 0, movePerUpdate[j]+lastPos[servos[j]]); //second arguement should always be zero
-       lastPos[servos[j]] += movePerUpdate[j];
+  for (int i = 0; i < reps; i++) {
+    for (int j = 0; j < num; j++) {
+      servoControl.setPWM(servos[j], 0, movePerUpdate[j] + lastPos[servos[j]]); //second arguement should always be zero
+      lastPos[servos[j]] += movePerUpdate[j];
     }
-    delay(1000/updateRate);
+    delay(1000 / updateRate);
   }
 }
 

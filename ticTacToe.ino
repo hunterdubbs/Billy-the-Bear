@@ -4,6 +4,7 @@
 //2 = red
 int board[][3] = {{0, 0, 0},{0, 0, 0},{0, 0, 0}};
 int soundLength[8] = {33000, 7500, 7500, 2500, 3500, 10000, 13000, 10000};
+char lastMovePos;
 
 //whose turn it is
 //0 = game not running
@@ -107,11 +108,13 @@ void loop() {
     playSound(floor(turn/2)+1);
     Serial.print("S");
     delay(soundLength[int(floor(turn/2)+1)]);
+    getNextMove(false);
+    Serial.print(lastMovePos);
+    delay(50);
     Serial.print("D");
     delay(5000);
     while (turnComplete == false){
-      getNextMove(false);
-      delay(500);
+      delay(800); //was 500
       updateLED();
       turnIdentifier = 1;
       if(checkForWin() == false){
@@ -385,24 +388,28 @@ void getNextMove(bool flag){
       if (board[i][0] == 2 && board[i][1] == 2){ 
         if(board[i][2] == 0){
           board[i][2] = 2;
+          lastMovePos = i+7;
           goto algorEnd;
         }
       }
       if (board[i][1] == 2 && board[i][2] == 2){ 
         if(board[i][0] == 0){
           board[i][0] = 2;
+          lastMovePos = i+1;
           goto algorEnd;
         }
       }
       if (board[0][i] == 2 && board[1][i] == 2){ 
         if(board[2][i] == 0){
           board[2][i] = 2;
+          lastMovePos = 3*i+3;
           goto algorEnd;
         }
       }
       if (board[1][i] == 2 && board[2][i] == 2){ 
         if(board[0][i] == 0){
           board[0][i] = 2;
+          lastMovePos = 3*i+1;
           goto algorEnd;
         }
       }
@@ -411,24 +418,28 @@ void getNextMove(bool flag){
     if (board[0][0] == 2 && board[1][1] == 2){
       if(board[2][2] == 0){
         board[2][2] = 2;
+        lastMovePos = 9;
         goto algorEnd;
       }
     }
     if (board[1][1] == 2 && board[2][2] == 2){
       if(board[0][0] == 0){
         board[0][0] = 2;
+        lastMovePos = 1;
         goto algorEnd;
       }
     }
     if (board[0][2] == 2 && board[1][1] == 2){
       if(board[2][0] == 0){
-        board[2][0] == 2;
+        board[2][0] = 2;
+        lastMovePos = 3;
         goto algorEnd;
       }
     }
     if (board[2][0] == 2 && board[1][1] == 2){
       if(board[0][2] == 0){
-        board[0][2] == 2;
+        board[0][2] = 2;
+        lastMovePos = 7;
         goto algorEnd;
       }
     }
@@ -475,13 +486,13 @@ void getNextMove(bool flag){
     }
     if (board[0][2] == 1 && board[1][1] == 1){
       if(board[2][0] == 0){
-        board[2][0] == 2;
+        board[2][0] = 2;
         goto algorEnd;
       }
     }
     if (board[2][0] == 1 && board[1][1] == 1){
       if(board[0][2] == 0){
-        board[0][2] == 2;
+        board[0][2] = 2;
         goto algorEnd;
       }
     }
