@@ -60,6 +60,16 @@ void setup() {
   //mouth - can kill small animals
   servoControl.setPWM(14, 0, 290);
   lastPos[14] = 290;
+  
+  /*
+  //testing positions
+  delay(500);
+  int armWaistMotors[5] = {8, 9, 10, 0, 1};
+  int pos3[5] = {200, 600, 400, 520, 580};
+  int pos2[5] = {120, 400, 400, 320, 550};
+  moveMotor(armWaistMotors, pos2, 0.5, 5);
+  delay(200);
+  moveMotor(armWaistMotors, pos3, 0.5, 5);*/
 
   delay(3000);
   input = 'Z';
@@ -117,39 +127,39 @@ void loop() {
     switch(targetButton){
       
       case 1:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 520, 500); //good
         break;
 
       case 2:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 490, 500); //good
         break;
 
       case 3:
-        pos3[5] = {50, 600, 400, 410, 500};
+       fillArray(pos3, 50, 600, 400, 490, 450); //good
         break;
 
       case 4:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 470, 500); //good
         break;
 
       case 5:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 440, 500); //good
         break;
 
       case 6:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 450, 450); //good
         break;
 
       case 7:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 200, 600, 400, 420, 580); //good
         break;
 
       case 8:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 410, 500); //good
         break;
 
       case 9:
-        pos3[5] = {50, 600, 400, 410, 500};
+        fillArray(pos3, 50, 600, 400, 410, 450); //good
         break;
        
     }
@@ -199,6 +209,7 @@ void loop() {
     while (speakTime < soundLength * 1000) {
       int pause = floor(random(0, 300));
       int pause2 = floor(random(0, 300));
+      openPos[0] = floor(random(200, 290));
       moveMotor(mouthMotor, openPos, 0.25, 1);
       delay(pause);
       moveMotor(mouthMotor, closePos, 0.25, 1);
@@ -276,5 +287,13 @@ void serialEvent() {
     char inChar = (char)Serial.read();
     input = inChar;
   }
+}
+
+void fillArray(int targetArray[], int var1, int var2, int var3, int var4, int var5){
+  targetArray[0] = var1;
+  targetArray[1] = var2;
+  targetArray[2] = var3;
+  targetArray[3] = var4;
+  targetArray[4] = var5;
 }
 
