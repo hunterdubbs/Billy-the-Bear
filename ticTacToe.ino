@@ -110,13 +110,14 @@ void loop() {
     playSound(floor(turn/2)+1);
     Serial.print("S");
     delay(soundLength[int(floor(turn/2)+1)]);
+    delay(4200);
     getNextMove(false);
-    Serial.print(lastMovePos);
-    delay(50);
+    //Serial.print(String(lastMovePos));
+    delay(150);
     Serial.print("D");
-    delay(5000);
+    delay(3000);
     while (turnComplete == false){
-      delay(800); //was 500
+      delay(500); //was 500
       updateLED();
       turnIdentifier = 1;
       if(checkForWin() == false){
@@ -390,28 +391,52 @@ void getNextMove(bool flag){
       if (board[i][0] == 2 && board[i][1] == 2){ 
         if(board[i][2] == 0){
           board[i][2] = 2;
-          lastMovePos = i+7;
+          if(i==0){
+            Serial.print("J");
+          }else if(i==1){
+            Serial.print("K");
+          }else if(i==2){
+            Serial.print("L");
+          }
           goto algorEnd;
         }
       }
       if (board[i][1] == 2 && board[i][2] == 2){ 
         if(board[i][0] == 0){
           board[i][0] = 2;
-          lastMovePos = i+1;
+          if(i==0){
+            Serial.print("T");
+          }else if(i==1){
+            Serial.print("Y");
+          }else if(i==2){
+            Serial.print("U");
+          }
           goto algorEnd;
         }
       }
       if (board[0][i] == 2 && board[1][i] == 2){ 
         if(board[2][i] == 0){
           board[2][i] = 2;
-          lastMovePos = 3*i+3;
+          if(i==0){
+            Serial.print("U");
+          }else if(i==1){
+            Serial.print("P");
+          }else if(i==2){
+            Serial.print("L");
+          }
           goto algorEnd;
         }
       }
       if (board[1][i] == 2 && board[2][i] == 2){ 
         if(board[0][i] == 0){
           board[0][i] = 2;
-          lastMovePos = 3*i+1;
+          if(i==0){
+            Serial.print("T");
+          }else if(i==1){
+            Serial.print("I");
+          }else if(i==2){
+           Serial.print("J");
+          }
           goto algorEnd;
         }
       }
@@ -420,28 +445,28 @@ void getNextMove(bool flag){
     if (board[0][0] == 2 && board[1][1] == 2){
       if(board[2][2] == 0){
         board[2][2] = 2;
-        lastMovePos = 9;
+        Serial.print("L");
         goto algorEnd;
       }
     }
     if (board[1][1] == 2 && board[2][2] == 2){
       if(board[0][0] == 0){
         board[0][0] = 2;
-        lastMovePos = 1;
+        Serial.print("T");
         goto algorEnd;
       }
     }
     if (board[0][2] == 2 && board[1][1] == 2){
       if(board[2][0] == 0){
         board[2][0] = 2;
-        lastMovePos = 3;
+        Serial.print("U");
         goto algorEnd;
       }
     }
     if (board[2][0] == 2 && board[1][1] == 2){
       if(board[0][2] == 0){
         board[0][2] = 2;
-        lastMovePos = 7;
+        Serial.print("J");
         goto algorEnd;
       }
     }
@@ -451,24 +476,52 @@ void getNextMove(bool flag){
       if (board[i][0] == 1 && board[i][1] == 1){ 
         if(board[i][2] == 0){
           board[i][2] = 2;
+          if(i==0){
+            Serial.print("J");
+          }else if(i==1){
+            Serial.print("K");
+          }else if(i==2){
+            Serial.print("L");
+          }
           goto algorEnd;
         }
       }
       if (board[i][1] == 1 && board[i][2] == 1){ 
         if(board[i][0] == 0){
           board[i][0] = 2;
+          if(i==0){
+            Serial.print("T");
+          }else if(i==1){
+            Serial.print("Y");
+          }else if(i==2){
+            Serial.print("U");
+          }
           goto algorEnd;
         }
       }
       if (board[0][i] == 1 && board[1][i] == 1){ 
         if(board[2][i] == 0){
           board[2][i] = 2;
+          if(i==0){
+            Serial.print("U");
+          }else if(i==1){
+            Serial.print("P");
+          }else if(i==2){
+            Serial.print("L");
+          }
           goto algorEnd;
         }
       }
       if (board[1][i] == 1 && board[2][i] == 1){ 
         if(board[0][i] == 0){
           board[0][i] = 2;
+          if(i==0){
+            Serial.print("T");
+          }else if(i==1){
+            Serial.print("I");
+          }else if(i==2){
+            Serial.print("J");
+          }
           goto algorEnd;
         }
       }
@@ -477,24 +530,28 @@ void getNextMove(bool flag){
     if (board[0][0] == 1 && board[1][1] == 1){
       if(board[2][2] == 0){
         board[2][2] = 2;
+        Serial.print("L");
         goto algorEnd;
       }
     }
     if (board[1][1] == 1 && board[2][2] == 1){
       if(board[0][0] == 0){
         board[0][0] = 2;
+        Serial.print("T");
         goto algorEnd;
       }
     }
     if (board[0][2] == 1 && board[1][1] == 1){
       if(board[2][0] == 0){
         board[2][0] = 2;
+        Serial.print("U");
         goto algorEnd;
       }
     }
     if (board[2][0] == 1 && board[1][1] == 1){
       if(board[0][2] == 0){
         board[0][2] = 2;
+        Serial.print("J");
         goto algorEnd;
       }
     }
@@ -502,6 +559,7 @@ void getNextMove(bool flag){
       getRandMove();
     }
     algorEnd:
+    //Serial.print(String(lastMovePos));
     delay(1);
   }
 }
@@ -512,7 +570,34 @@ void getRandMove(){
     int row = floor(random(0, 3.999));
     if(board[col][row] == 0){
       board[col][row] = 2;
-      done;
+      if(col==0){
+        if(row==0){
+          Serial.print("T");
+        }else if(row==1){
+          Serial.print("I");
+        }else if(row==2){
+          Serial.print("J");
+        }
+      }else if(col==1){
+        if(row==0){
+          Serial.print("Y");
+        }else if(row==1){
+          Serial.print("O");
+        }else if(row==2){
+          Serial.print("K");
+        }
+      }else if(col==2){
+        if(row==0){
+          Serial.print("U");
+        }else if(row==1){
+          Serial.print("P");
+        }else if(row==2){
+          Serial.print("L");
+        }
+      }
+      //Serial.print(String(lastMovePos));
+      
+      done = true;
     }
   }
 }

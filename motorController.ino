@@ -125,7 +125,7 @@ void loop() {
     int pos3[5];
     //this pos changes depending upon the targetButton var
     switch(targetButton){
-      
+      Serial.println("calc motors positions");
       case 1:
         fillArray(pos3, 50, 600, 400, 520, 500); //good
         break;
@@ -209,7 +209,7 @@ void loop() {
     while (speakTime < soundLength * 1000) {
       int pause = floor(random(0, 300));
       int pause2 = floor(random(0, 300));
-      openPos[0] = floor(random(200, 290));
+      openPos[0] = floor(random(200, 245));
       moveMotor(mouthMotor, openPos, 0.25, 1);
       delay(pause);
       moveMotor(mouthMotor, closePos, 0.25, 1);
@@ -247,12 +247,24 @@ void loop() {
     turn = 1;
   } else if (input == 'Q') {
     turn++;
-  } else {
-    for (int i = 1; i < 10; i++) {
-      if (input == char(i)) {
-        targetButton = i;
-      }
-    }
+  } else if (input == 'T'){
+    targetButton = 1;
+  }else if (input == 'Y'){
+    targetButton = 2;
+  }else if (input == 'U'){
+    targetButton = 3;
+  }else if (input == 'I'){
+    targetButton = 4;
+  }else if (input == 'O'){
+    targetButton = 5;
+  }else if (input == 'P'){
+    targetButton = 6;
+  }else if (input == 'J'){
+    targetButton = 7;
+  }else if (input == 'K'){
+    targetButton = 8;
+  }else if (input == 'L'){
+    targetButton = 9;
   }
   //input = 'Z';
 }
