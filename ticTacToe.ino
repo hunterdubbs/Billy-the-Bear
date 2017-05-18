@@ -43,6 +43,10 @@ void setup() {
     pinMode(i+soundPinStart, OUTPUT);
     digitalWrite(i+soundPinStart, HIGH);
   }
+  pinMode(11, OUTPUT);
+  pinMode(13, OUTPUT);
+  digitalWrite(11, HIGH);
+  digitalWrite(13, HIGH);
 
   //start button
   pinMode(12, INPUT_PULLUP);
@@ -121,6 +125,8 @@ void loop() {
       updateLED();
       turnIdentifier = 1;
       if(checkForWin() == false){
+            playSound(8);
+            Serial.print("N");
             if(turn >= 9){
               //was a draw
               playSound(7);
@@ -376,9 +382,15 @@ void startGame(){
 }
 
 void playSound(int index){
-  digitalWrite(index + soundPinStart, LOW);
-  delay(100);
-  digitalWrite(index + soundPinStart, HIGH);
+  if(index == 8){
+    digitalWrite(11, LOW);
+    delay(100);
+    digitalWrite(11, HIGH);
+  }else{
+    digitalWrite(index + soundPinStart, LOW);
+    delay(100);
+    digitalWrite(index + soundPinStart, HIGH);
+  }
 }
 
 void getNextMove(bool flag){
