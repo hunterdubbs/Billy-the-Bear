@@ -245,26 +245,53 @@ void loop() {
     //reset
     firstTime = true;
     turn = 1;
+    input = 'Z';
   } else if (input == 'Q') {
     turn++;
+    input = 'Z';
   } else if (input == 'T'){
     targetButton = 1;
+    input = 'Z';
   }else if (input == 'Y'){
     targetButton = 2;
+    input = 'Z';
   }else if (input == 'U'){
     targetButton = 3;
+    input = 'Z';
   }else if (input == 'I'){
     targetButton = 4;
+    input = 'Z';
   }else if (input == 'O'){
     targetButton = 5;
+    input = 'Z';
   }else if (input == 'P'){
     targetButton = 6;
+    input = 'Z';
   }else if (input == 'J'){
     targetButton = 7;
+    input = 'Z';
   }else if (input == 'K'){
     targetButton = 8;
+    input = 'Z';
   }else if (input == 'L'){
     targetButton = 9;
+    input = 'Z';
+  }else if (input == 'N'){
+    int mouthMotor[1] = {14};
+    int openPos[1] = {200};
+    int closePos[1] = {290};
+    int speakTime = 0;
+    while (speakTime < 1.5 * 1000) {
+      int pause = floor(random(0, 300));
+      int pause2 = floor(random(0, 300));
+      openPos[0] = floor(random(200, 245));
+      moveMotor(mouthMotor, openPos, 0.25, 1);
+      delay(pause);
+      moveMotor(mouthMotor, closePos, 0.25, 1);
+      delay(pause2);
+      speakTime += (500 + pause + pause2);
+    }
+    input = 'Z';
   }
   //input = 'Z';
 }
