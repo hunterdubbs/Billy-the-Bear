@@ -125,6 +125,7 @@ void loop() {
       updateLED();
       turnIdentifier = 1;
       if(checkForWin() == false){
+            delay(500);
             playSound(8);
             Serial.print("N");
             if(turn >= 9){
@@ -217,7 +218,7 @@ bool checkForWin(){
     else if(board[0][0] == 2 && board[1][1] == 2 && board[2][2] == 2) {computerWin("d", 0);return true;}
     else if(board[0][2] == 2 && board[1][1] == 2 && board[2][0] == 2) {computerWin("d", 1);return true;}
     else{return false;}
-  }
+  }else{return false;}
 }
 
 //c = column
@@ -365,6 +366,7 @@ void computerWin(String type, int loc){
   playSound(6);
   Serial.print("S");
   delay(13000);
+  Serial.print("V");
   turnIdentifier = 1;
   dispRunning = false;
   Serial.print("R");
@@ -384,8 +386,10 @@ void startGame(){
 void playSound(int index){
   if(index == 8){
     digitalWrite(11, LOW);
+    digitalWrite(13, LOW);
     delay(100);
     digitalWrite(11, HIGH);
+    digitalWrite(13, HIGH);
   }else{
     digitalWrite(index + soundPinStart, LOW);
     delay(100);

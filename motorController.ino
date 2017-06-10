@@ -34,9 +34,9 @@ void setup() {
   //put all servos in start pos
 
   //waist
-  servoControl.setPWM(0, 0, 320);
-  lastPos[0] = 320;
-  servoControl.setPWM(1, 0, 550);
+  servoControl.setPWM(0, 0, 340);  //left right
+  lastPos[0] = 340;
+  servoControl.setPWM(1, 0, 550); //forward backward
   lastPos[1] = 550;
   //right arm
   servoControl.setPWM(4, 0, 200);
@@ -60,16 +60,18 @@ void setup() {
   //mouth - can kill small animals
   servoControl.setPWM(14, 0, 290);
   lastPos[14] = 290;
+  //honey stick dispenser
+  servoControl.setPWM(3, 0, 600);
+  lastPos[3] = 600;
   
-  /*
-  //testing positions
-  delay(500);
-  int armWaistMotors[5] = {8, 9, 10, 0, 1};
-  int pos3[5] = {200, 600, 400, 520, 580};
-  int pos2[5] = {120, 400, 400, 320, 550};
-  moveMotor(armWaistMotors, pos2, 0.5, 5);
-  delay(200);
-  moveMotor(armWaistMotors, pos3, 0.5, 5);*/
+  
+  
+   /*int dabMotors[5] = {1, 8, 5, 10, 9};
+   int pos1[5] = {460, 0, 400, 900, 800};
+   int pos2[5] = {550, 350, 600, 400, 600};
+   moveMotor(dabMotors, pos1, 0.5, 5);
+   delay(500);
+   moveMotor(dabMotors, pos2, 0.5, 5);*/
 
   delay(3000);
   input = 'Z';
@@ -121,7 +123,7 @@ void loop() {
     int armMotors[3] = {8, 9, 10};
     int armWaistMotors[5] = {8, 9, 10, 0, 1};
     //int pos1[3] = {200, 300, 600}; //paw to chin
-    int pos2[5] = {120, 400, 400, 320, 550}; // side of honey pot
+    int pos2[5] = {120, 400, 400, 340, 550}; // side of honey pot
     int pos3[5];
     //this pos changes depending upon the targetButton var
     switch(targetButton){
@@ -220,14 +222,21 @@ void loop() {
   } else if (input == 'E') {
     //high-five
     int armMotors[4] = {4, 5, 6, 0};
-    int pos1[4] = {550, 450, 400, 320};
+    int pos1[4] = {550, 450, 400, 340};
     int pos2[4] = {550, 650, 430, 200};
-    int pos3[4] = {200, 600, 400, 320};
+    int pos3[4] = {200, 600, 400, 340};
     moveMotor(armMotors, pos1, 0.5, 4);
     moveMotor(armMotors, pos2, 0.25, 4);
     delay(1000);
     moveMotor(armMotors, pos1, 0.25, 4);
     moveMotor(armMotors, pos3, 0.5, 4);
+    delay(500);
+    int dispMotor[1] = {3};
+    int outPos[1] = {150};
+    int inPos[1] = {600};
+    moveMotor(dispMotor, outPos, 0.25, 1);
+    delay(250);
+    moveMotor(dispMotor, inPos, 0.25, 1);
     input = 'Z';
   } else if (input == 'F') {
     //nods head
@@ -292,6 +301,13 @@ void loop() {
       speakTime += (500 + pause + pause2);
     }
     input = 'Z';
+  }else if (input == 'V'){
+   int dabMotors[5] = {1, 8, 5, 10, 9};
+   int pos1[5] = {460, 0, 400, 900, 800};
+   int pos2[5] = {550, 350, 600, 400, 600};
+   moveMotor(dabMotors, pos1, 0.5, 5);
+   delay(500);
+   moveMotor(dabMotors, pos2, 0.5, 5);
   }
   //input = 'Z';
 }
